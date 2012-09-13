@@ -8,8 +8,13 @@ public class Tree {
 
 	}
 
-	public void addElement(int element) {
+	public void addElement(Integer element) {
 
+	}
+	
+	public void search(Integer element)
+	{
+		
 	}
 
 	/**

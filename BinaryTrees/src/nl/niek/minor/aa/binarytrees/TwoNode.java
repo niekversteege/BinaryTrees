@@ -1,6 +1,12 @@
 package nl.niek.minor.aa.binarytrees;
 
-
+/**
+ * Is this class necessary? Seems like this functionality is in the ThreeNode
+ * class by just having two keys.
+ * 
+ * @author Niek
+ * 
+ */
 public class TwoNode extends Node {
 
 	static final int TWO_NODES = 2;
@@ -10,7 +16,7 @@ public class TwoNode extends Node {
 	}
 
 	@Override
-	public void addElement(int element) {
+	public void addElement(Integer element) {
 		// if !isFull
 		// add element at correct position
 		// else

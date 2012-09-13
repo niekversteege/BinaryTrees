@@ -26,8 +26,9 @@ public abstract class Node {
 		return keys.size() >= nrOfNodes;
 	}
 
-	protected final boolean hasSubNode() {
-		return false;
+	
+	protected Node getUpperNode(){
+		return null;
 	}
 
 	protected void addElementAtCorrectPosition(Integer element) {
@@ -44,5 +45,5 @@ public abstract class Node {
 		}
 	}
 
-	public abstract void addElement(int element);
+	public abstract void addElement(Integer element);
 }
