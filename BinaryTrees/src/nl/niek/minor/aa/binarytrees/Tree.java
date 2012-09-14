@@ -1,35 +1,42 @@
 package nl.niek.minor.aa.binarytrees;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Tree {
+/**
+ * Tree class which contains the root node and keeps track of the tree
+ * structure.
+ * 
+ * @author Niek
+ * 
+ */
+public class Tree
+{
 
-	public Tree() {
+	private List<Node>	nodes;
+	
+	private Node rootNode;
 
+	public Tree()
+	{
+		nodes = new ArrayList<Node>();
+		rootNode = new ThreeNode(0);
+		nodes.add(0, rootNode);
 	}
 
-	public void addElement(Integer element) {
-
+	public void addNode(Node newNode)
+	{
+		nodes.add(newNode);
 	}
 	
-	public void search(Integer element)
+	public void addElement(Integer element)
 	{
-		
+		search(element).addElement(element);
 	}
 
-	/**
-	 * For extra time.
-	 * 
-	 * @param elements
-	 */
-	public void addElements(List<Integer> elements) {
-
-	}
-
-	/**
-	 * Not implemented.
-	 */
-	public void removeElement() {
-		/* Forget this for now. */
+	public Node search(Integer element)
+	{
+		return null;
 	}
 }
+
