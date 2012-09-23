@@ -42,7 +42,7 @@ public class KeyList
 		// TODO: all
 	}
 
-	protected Integer getLowestKey()
+	public final Integer getLowestKey()
 	{
 		Integer lowestKey = 0;
 
@@ -61,14 +61,14 @@ public class KeyList
 		}
 	}
 
-	protected Integer removeLowestKey()
+	public final Integer removeLowestKey()
 	{
 		Integer lowestKey = getLowestKey();
 		keys.remove(lowestKey);
 		return lowestKey;
 	}
 
-	protected Integer getHighestKey()
+	public final Integer getHighestKey()
 	{
 		Integer highestKey = 0;
 
@@ -87,7 +87,7 @@ public class KeyList
 		}
 	}
 
-	protected Integer removeHighestKey()
+	public final Integer removeHighestKey()
 	{
 		Integer highestKey = getHighestKey();
 		keys.remove(highestKey);
@@ -130,8 +130,9 @@ public class KeyList
 		}
 	}
 	
-	public List<Integer> getKeys()
+	public List<Integer> getAndRemoveKeys()
 	{
+		keys.clear();
 		return keys;
 	}
 }

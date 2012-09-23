@@ -34,14 +34,17 @@ public class Tree
 
 		if (nodeForNewKey.isFull())
 		{
-			// -make a list of the three keys that are used here: the two keys
-			// of nodeForNewKey and the new key
-			// -make new Node and put the largest key of the nodeForNewKey in it
-			// -leave the smallest key in nodeForNewKey
-			// -add the middle of the three keys to the parent of nodeForNewKey
+			// get all 3 keys: two from the node and the new one.
 			KeyList tempKeys = new KeyList(3);
-			tempKeys.addKeys(nodeForNewKey.getKeys());
+			tempKeys.addKeys(nodeForNewKey.getAndRemoveKeys());
 			tempKeys.addKey(newKey);
+			// highest value in the nodeForNewKey
+			nodeForNewKey.addKey(tempKeys.removeHighestKey());
+			// make a new node with the same parent
+			Node newNode = new ThreeNode(nodeForNewKey.getParentNode());
+			// max nr of childs check?
+			nodeForNewKey.getParentNode().addChild(newNode);
+			// 
 		} else
 		{
 			if (!nodeForNewKey.hasKey(newKey))
@@ -63,14 +66,6 @@ public class Tree
 	{
 		boolean found = false;
 		Node returnNode = getRootNode();
-
-		// if element is in root node:
-		// return rootnode
-		// else
-		// ask for child tree which should contain the node for the element
-		// keep asking until we find a child with no children
-		// return the child with no children: this is where we can add the given
-		// element
 
 		while (!found)
 		{
@@ -95,9 +90,7 @@ public class Tree
 	private Node getRootNode()
 	{
 		Node rootNode = null;
-		// start at first node or lowest node
-		// ask for parent node until null
-		// return node which has null parent
+		
 		if (nodes.isEmpty())
 		{
 			rootNode = new ThreeNode(0);
