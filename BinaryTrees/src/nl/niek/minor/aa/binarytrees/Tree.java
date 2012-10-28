@@ -21,44 +21,19 @@ public class Tree
 	{
 		Node nodeForNewKey = search(newKey);
 
-		if (nodeForNewKey.hasBothKeysSet())
+		nodeForNewKey.addKey(newKey);
+
+		refreshRootNode();
+	}
+
+	private void refreshRootNode()
+	{
+		if (rootNode.getParent() != null)
 		{
-			NodeSplitKeySorter splitSorter = new NodeSplitKeySorter(
-					nodeForNewKey.getBigKey(), nodeForNewKey.getSmallKey(),
-					newKey);
-
-			nodeForNewKey.setBigKey(0);
-			nodeForNewKey.setSmallKey(0);
-
-			Node parent = nodeForNewKey.getParent();
-
-			if (parent == null)
+			while (rootNode.getParent() != null)
 			{
-				nodeForNewKey.setSmallKey(splitSorter.getMiddleKey());
-
-				Node leftChild = new Node();
-				leftChild.setSmallKey(splitSorter.getSmallKey());
-				leftChild.setParent(nodeForNewKey);
-				Node rightChild = new Node();
-				rightChild.setSmallKey(splitSorter.getBigKey());
-				rightChild.setParent(nodeForNewKey);
-
-				nodeForNewKey.setLeftChild(leftChild);
-				nodeForNewKey.setRightChild(rightChild);
-
-				rootNode = nodeForNewKey;
+				rootNode = rootNode.getParent();
 			}
-			else
-			{
-				// create new node
-				// set same parent as this
-				// parent.set child on new node
-				
-			}
-		}
-		else
-		{
-			nodeForNewKey.addKey(newKey);
 		}
 	}
 
@@ -73,57 +48,19 @@ public class Tree
 	{
 		Node node = getRootNode();
 
-		if (!node.hasBothKeysSet())
-		{
-			return node;
-		}
-
 		while (true)
 		{
 			if (key < node.getSmallKey())
 			{
-				Node leftChild = node.getLeftChild();
 
-				if (leftChild == null)
-				{
-					leftChild = new Node();
-					leftChild.setParent(node);
-					node.setLeftChild(leftChild);
-
-					return leftChild;
-				}
-
-				node = leftChild;
 			}
 			else if (key > node.getSmallKey() && key < node.getBigKey())
 			{
-				Node middleChild = node.getMiddleChild();
 
-				if (middleChild == null)
-				{
-					middleChild = new Node();
-					middleChild.setParent(node);
-					node.setMiddleChild(middleChild);
-
-					return middleChild;
-				}
-
-				node = middleChild;
 			}
 			else if (key > node.getBigKey())
 			{
-				Node rightChild = node.getRightChild();
 
-				if (rightChild == null)
-				{
-					rightChild = new Node();
-					rightChild.setParent(node);
-					node.setRightChild(rightChild);
-
-					return rightChild;
-				}
-
-				node = rightChild;
 			}
 		}
 	}

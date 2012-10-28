@@ -1,5 +1,7 @@
 package nl.niek.minor.aa.binarytrees.nodes;
 
+import nl.niek.minor.aa.binarytrees.NodeSplitKeySorter;
+
 public class Node
 {
 	private int		smallKey	= 0;
@@ -27,8 +29,32 @@ public class Node
 		}
 		else
 		{
-			// SPLIT
-			
+			// TODO: SPLIT
+			NodeSplitKeySorter splitSorter = new NodeSplitKeySorter(bigKey,
+					smallKey, newKey);
+
+			bigKey = 0;
+			smallKey = 0;
+
+			if (parent == null)
+			{
+				// create a new node as parent.
+				// set middle value in parent
+				// set parent as parent
+				// set this as left child in parent
+				
+				// create a sibling node
+				// set right value to sibling node
+				// set sibling node as child of new parent
+				// set sibling node as right child in parent
+			}
+			else
+			{
+				// create new sibling node
+				// set new sibling node as parents child according to parent's keys
+				// set parent on new sibling node
+				// TODO: what to do when parent has too many children?
+			}
 		}
 
 		putKeysInOrder();
@@ -44,7 +70,7 @@ public class Node
 		}
 	}
 
-	public boolean hasBothKeysSet()
+	private boolean hasBothKeysSet()
 	{
 		return smallKey != 0 && bigKey != 0;
 	}
