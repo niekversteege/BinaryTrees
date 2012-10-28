@@ -1,108 +1,122 @@
 package nl.niek.minor.aa.binarytrees.nodes;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class Node extends KeyList
+public class Node
 {
-	private static final int	MAX_KEYS	= 5;
+	private int		smallKey	= 0;
+	private int		bigKey		= 0;
 
-	private Node				parentNode;
+	private Node	leftChild	= null;
+	private Node	rightChild	= null;
+	private Node	middleChild	= null;
+	private Node	parent		= null;
 
-	private int					depth;
-
-	private List<Node>			childNodes;
-
-	private final int			maxNrOfChilds;
-
-	private Node(final int maxNrOfKeys)
+	public Node()
 	{
-		super(maxNrOfKeys);
 
-		if (maxNrOfKeys > MAX_KEYS)
+	}
+
+	public void addKey(int newKey)
+	{
+		if (smallKey == 0)
 		{
-			throw new IllegalArgumentException(
-					"Nodes can only have max. 5 keys for now.");
+			smallKey = newKey;
+		}
+		else if (bigKey == 0)
+		{
+			bigKey = newKey;
+		}
+		else
+		{
+			// SPLIT
+			
 		}
 
-		this.maxNrOfChilds = maxNrOfKeys + 1;
-		childNodes = new ArrayList<Node>();
+		putKeysInOrder();
 	}
 
-	public Node(final int maxNrOfKeys, int depth)
+	private void putKeysInOrder()
 	{
-		this(maxNrOfKeys);
-		parentNode = null;
-		this.depth = depth;
-	}
-
-	public Node(final int maxNrOfKeys, Node parentNode)
-	{
-		this(maxNrOfKeys, parentNode.getDepth() + 1);
-	}
-
-	public final boolean hasChildren()
-	{
-		return !childNodes.isEmpty();
-	}
-
-	public final boolean isRootNode()
-	{
-		return getParentNode() == null;
-	}
-
-	public Node getParentNode()
-	{
-		return parentNode;
-	}
-
-	public final boolean hasParentNode()
-	{
-		return parentNode != null;
-	}
-
-	protected void setParentNode(Node parentNode)
-	{
-		this.parentNode = parentNode;
-	}
-
-	protected int getDepth()
-	{
-		return depth;
-	}
-
-	protected void setDepth(int depth)
-	{
-		this.depth = depth;
-	}
-
-	public Node getChild(Integer key)
-	{
-		// TODO: all
-
-		return null;
-	}
-
-	public final boolean canAddChild()
-	{
-		return childNodes.size() <= maxNrOfChilds;
-	}
-
-	public void addChild(Node childNode)
-	{
-		if (canAddChild())
+		if (smallKey > bigKey)
 		{
-			throw new IndexOutOfBoundsException(
-					"Cannot add child to a node with max childs.");
-		} else
-		{
-			childNodes.add(childNode);
+			int temp = bigKey;
+			bigKey = smallKey;
+			smallKey = temp;
 		}
+	}
+
+	public boolean hasBothKeysSet()
+	{
+		return smallKey != 0 && bigKey != 0;
+	}
+
+	public boolean keyAreZero()
+	{
+		return smallKey == 0 && bigKey == 0;
+	}
+
+	public int getSmallKey()
+	{
+		return smallKey;
+	}
+
+	public void setSmallKey(int smallKey)
+	{
+		this.smallKey = smallKey;
+	}
+
+	public int getBigKey()
+	{
+		return bigKey;
+	}
+
+	public void setBigKey(int bigKey)
+	{
+		this.bigKey = bigKey;
+	}
+
+	public Node getLeftChild()
+	{
+		return leftChild;
+	}
+
+	public void setLeftChild(Node leftChild)
+	{
+		this.leftChild = leftChild;
+	}
+
+	public Node getRightChild()
+	{
+		return rightChild;
+	}
+
+	public void setRightChild(Node rightChild)
+	{
+		this.rightChild = rightChild;
+	}
+
+	public Node getMiddleChild()
+	{
+		return middleChild;
+	}
+
+	public void setMiddleChild(Node middleChild)
+	{
+		this.middleChild = middleChild;
+	}
+
+	public Node getParent()
+	{
+		return parent;
+	}
+
+	public void setParent(Node parent)
+	{
+		this.parent = parent;
 	}
 
 	@Override
 	public String toString()
 	{
-		return super.toString();
+		return "[" + smallKey + "] [" + bigKey + "]";
 	}
 }

@@ -1,11 +1,6 @@
 package nl.niek.minor.aa.binarytrees;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import nl.niek.minor.aa.binarytrees.nodes.KeyList;
 import nl.niek.minor.aa.binarytrees.nodes.Node;
-import nl.niek.minor.aa.binarytrees.nodes.ThreeNode;
 
 /**
  * Tree class which contains the list of nodes.
@@ -15,103 +10,171 @@ import nl.niek.minor.aa.binarytrees.nodes.ThreeNode;
  */
 public class Tree
 {
-	private List<Node>	nodes;
+	private Node	rootNode;
 
 	public Tree()
 	{
-		nodes = new ArrayList<Node>();
+
 	}
 
-	public void addKey(Integer newKey)
+	public void addKey(int newKey)
 	{
-		// if !isFull
-		// add element in correct key
-		// else
-		// split node: move middle value to upper node. new nodes for other
-		// values
-
 		Node nodeForNewKey = search(newKey);
 
-		if (nodeForNewKey.isFull())
+		if (nodeForNewKey.hasBothKeysSet())
 		{
-			// get all 3 keys: two from the node and the new one.
-			KeyList tempKeys = new KeyList(3);
-			tempKeys.addKeys(nodeForNewKey.getAndRemoveKeys());
-			tempKeys.addKey(newKey);
-			// highest value in the nodeForNewKey
-			nodeForNewKey.addKey(tempKeys.removeHighestKey());
-			// make a new node with the same parent
-			Node newNode = new ThreeNode(nodeForNewKey.getParentNode());
-			// max nr of childs check?
-			nodeForNewKey.getParentNode().addChild(newNode);
-			// 
-		} else
-		{
-			if (!nodeForNewKey.hasKey(newKey))
+			NodeSplitKeySorter splitSorter = new NodeSplitKeySorter(
+					nodeForNewKey.getBigKey(), nodeForNewKey.getSmallKey(),
+					newKey);
+
+			nodeForNewKey.setBigKey(0);
+			nodeForNewKey.setSmallKey(0);
+
+			Node parent = nodeForNewKey.getParent();
+
+			if (parent == null)
 			{
-				nodeForNewKey.addKey(newKey);
+				nodeForNewKey.setSmallKey(splitSorter.getMiddleKey());
+
+				Node leftChild = new Node();
+				leftChild.setSmallKey(splitSorter.getSmallKey());
+				leftChild.setParent(nodeForNewKey);
+				Node rightChild = new Node();
+				rightChild.setSmallKey(splitSorter.getBigKey());
+				rightChild.setParent(nodeForNewKey);
+
+				nodeForNewKey.setLeftChild(leftChild);
+				nodeForNewKey.setRightChild(rightChild);
+
+				rootNode = nodeForNewKey;
 			}
+			else
+			{
+				// create new node
+				// set same parent as this
+				// parent.set child on new node
+				
+			}
+		}
+		else
+		{
+			nodeForNewKey.addKey(newKey);
 		}
 	}
 
 	/**
 	 * Look for the node which contains this key. If it is not found then it
-	 * returns a pointer to a node with node children, where the key can be
-	 * added.
+	 * returns a node where it should be added.
 	 * 
 	 * @param key
 	 * @return
 	 */
-	public Node search(final Integer key)
+	public Node search(final int key)
 	{
-		boolean found = false;
-		Node returnNode = getRootNode();
+		Node node = getRootNode();
 
-		while (!found)
+		if (!node.hasBothKeysSet())
 		{
-			if (!returnNode.hasKey(key))
-			{
-				if (returnNode.hasChildren())
-				{
-					returnNode = returnNode.getChild(key);
-				} else
-				{
-					break;
-				}
-			} else
-			{
-				break;
-			}
+			return node;
 		}
 
-		return returnNode;
+		while (true)
+		{
+			if (key < node.getSmallKey())
+			{
+				Node leftChild = node.getLeftChild();
+
+				if (leftChild == null)
+				{
+					leftChild = new Node();
+					leftChild.setParent(node);
+					node.setLeftChild(leftChild);
+
+					return leftChild;
+				}
+
+				node = leftChild;
+			}
+			else if (key > node.getSmallKey() && key < node.getBigKey())
+			{
+				Node middleChild = node.getMiddleChild();
+
+				if (middleChild == null)
+				{
+					middleChild = new Node();
+					middleChild.setParent(node);
+					node.setMiddleChild(middleChild);
+
+					return middleChild;
+				}
+
+				node = middleChild;
+			}
+			else if (key > node.getBigKey())
+			{
+				Node rightChild = node.getRightChild();
+
+				if (rightChild == null)
+				{
+					rightChild = new Node();
+					rightChild.setParent(node);
+					node.setRightChild(rightChild);
+
+					return rightChild;
+				}
+
+				node = rightChild;
+			}
+		}
 	}
 
 	private Node getRootNode()
 	{
-		Node rootNode = null;
-		
-		if (nodes.isEmpty())
+		if (rootNode == null)
 		{
-			rootNode = new ThreeNode(0);
-			nodes.add(rootNode);
+			rootNode = new Node();
 		}
-		else
-		{
-			rootNode = nodes.get(0);
-			
-			while(rootNode.hasParentNode())
-			{
-				rootNode = rootNode.getParentNode();
-			}
-		}
+
 		return rootNode;
 	}
 
 	public void printNodeTree()
 	{
-		// get root node
-		// ask for children
-		// make new layer for all children of all nodes in this layer
+		printNodeTree(rootNode, 0);
 	}
+
+	private void printNodeTree(Node node, int depth)
+	{
+		printLine(node.toString() + " at depth " + depth);
+
+		if (node.getLeftChild() != null)
+		{
+			printNodeTree(node.getLeftChild(), depth + 1);
+		}
+		if (node.getMiddleChild() != null)
+		{
+			printNodeTree(node.getMiddleChild(), depth + 1);
+		}
+		if (node.getRightChild() != null)
+		{
+			printNodeTree(node.getRightChild(), depth + 1);
+		}
+	}
+
+	public void printRootNodeAndDirectChildren()
+	{
+		if (rootNode != null)
+		{
+			printLine("         Root node: " + rootNode.toString());
+			printLine("Left : " + rootNode.getLeftChild() + ". Mid: "
+					+ rootNode.getMiddleChild() + ". Right: "
+					+ rootNode.getRightChild() + ".");
+		}
+	}
+
+	private void printLine(String string)
+	{
+		System.out.println(string);
+	}
+
 }
