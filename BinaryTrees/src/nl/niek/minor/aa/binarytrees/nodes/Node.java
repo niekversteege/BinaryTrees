@@ -42,7 +42,7 @@ public class Node
 				// set middle value in parent
 				// set parent as parent
 				// set this as left child in parent
-				
+
 				// create a sibling node
 				// set right value to sibling node
 				// set sibling node as child of new parent
@@ -51,9 +51,14 @@ public class Node
 			else
 			{
 				// create new sibling node
-				// set new sibling node as parents child according to parent's keys
+				// set new sibling node as parents child according to parent's
+				// keys
 				// set parent on new sibling node
 				// TODO: what to do when parent has too many children?
+				// TODO: make keys and children a list! Keep track of keys with
+				// a number or size().
+				// TODO: redistribute children after splitting, according to
+				// keys of other nodes.
 			}
 		}
 
