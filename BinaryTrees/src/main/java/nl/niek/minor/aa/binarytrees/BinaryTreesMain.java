@@ -11,12 +11,9 @@ public class BinaryTreesMain
 		Tree tree = new Tree();
 
 		tree.addKey(9);
-		tree.printRootNodeAndDirectChildren();
 		tree.addKey(5);
-		tree.printRootNodeAndDirectChildren();
 		tree.addKey(8);
 		// tree.addKey(3);
-		tree.printRootNodeAndDirectChildren();
 
 		// example from book
 		// tree.addKey(9);

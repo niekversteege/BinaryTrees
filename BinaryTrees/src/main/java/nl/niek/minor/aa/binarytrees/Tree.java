@@ -22,6 +22,33 @@ public class Tree
 		Node nodeForNewKey = search(newKey);
 
 		nodeForNewKey.addKey(newKey);
+		
+		Node parent = nodeForNewKey.getParent();
+		
+		if (parent == null)
+		{
+			// create a new node as parent.
+			// set middle value in parent
+			// set parent as parent
+			// set this as left child in parent
+
+			// create a sibling node
+			// set right value to sibling node
+			// set sibling node as child of new parent
+			// set sibling node as right child in parent
+		}
+		else
+		{
+			// create new sibling node
+			// set new sibling node as parents child according to parent's
+			// keys
+			// set parent on new sibling node
+			// TODO: what to do when parent has too many children?
+			// TODO: make keys and children a list! Keep track of keys with
+			// a number or size().
+			// TODO: redistribute children after splitting, according to
+			// keys of other nodes.
+		}
 
 		refreshRootNode();
 	}
@@ -74,44 +101,4 @@ public class Tree
 
 		return rootNode;
 	}
-
-	public void printNodeTree()
-	{
-		printNodeTree(rootNode, 0);
-	}
-
-	private void printNodeTree(Node node, int depth)
-	{
-		printLine(node.toString() + " at depth " + depth);
-
-		if (node.getLeftChild() != null)
-		{
-			printNodeTree(node.getLeftChild(), depth + 1);
-		}
-		if (node.getMiddleChild() != null)
-		{
-			printNodeTree(node.getMiddleChild(), depth + 1);
-		}
-		if (node.getRightChild() != null)
-		{
-			printNodeTree(node.getRightChild(), depth + 1);
-		}
-	}
-
-	public void printRootNodeAndDirectChildren()
-	{
-		if (rootNode != null)
-		{
-			printLine("         Root node: " + rootNode.toString());
-			printLine("Left : " + rootNode.getLeftChild() + ". Mid: "
-					+ rootNode.getMiddleChild() + ". Right: "
-					+ rootNode.getRightChild() + ".");
-		}
-	}
-
-	private void printLine(String string)
-	{
-		System.out.println(string);
-	}
-
 }
