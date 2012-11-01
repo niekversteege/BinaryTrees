@@ -14,7 +14,7 @@ public class Tree
 
 	public Tree()
 	{
-
+		rootNode = new Node();
 	}
 
 	public void addKey(int newKey)
@@ -22,33 +22,6 @@ public class Tree
 		Node nodeForNewKey = search(newKey);
 
 		nodeForNewKey.addKey(newKey);
-		
-		Node parent = nodeForNewKey.getParent();
-		
-		if (parent == null)
-		{
-			// create a new node as parent.
-			// set middle value in parent
-			// set parent as parent
-			// set this as left child in parent
-
-			// create a sibling node
-			// set right value to sibling node
-			// set sibling node as child of new parent
-			// set sibling node as right child in parent
-		}
-		else
-		{
-			// create new sibling node
-			// set new sibling node as parents child according to parent's
-			// keys
-			// set parent on new sibling node
-			// TODO: what to do when parent has too many children?
-			// TODO: make keys and children a list! Keep track of keys with
-			// a number or size().
-			// TODO: redistribute children after splitting, according to
-			// keys of other nodes.
-		}
 
 		refreshRootNode();
 	}
@@ -62,6 +35,15 @@ public class Tree
 				rootNode = rootNode.getParent();
 			}
 		}
+
+		BinaryTreesUtil.println("Root node: " + rootNode.toString());
+		if (rootNode.hasChildren())
+		{
+			for (Node n : rootNode.getChildren())
+			{
+				BinaryTreesUtil.print("Child: " + n.toString() + " ");
+			}
+		}
 	}
 
 	/**
@@ -73,32 +55,35 @@ public class Tree
 	 */
 	public Node search(final int key)
 	{
-		Node node = getRootNode();
+		boolean atLeafLevel = false;
 
-		while (true)
+		Node node = rootNode;
+
+		/* If the root is full, search the children. */
+		if (node.isFull())
 		{
-			if (key < node.getSmallKey())
+			while (!atLeafLevel)
 			{
-
-			}
-			else if (key > node.getSmallKey() && key < node.getBigKey())
-			{
-
-			}
-			else if (key > node.getBigKey())
-			{
-
+				if (node.hasKey(key))
+				{
+					throw new IllegalStateException(
+							"Key already exists in tree.");
+				}
+				else
+				{
+					if (node.hasChildren())
+					{
+						node = node.getChild(key);
+					}
+					else
+					{
+						atLeafLevel = true;
+						break;
+					}
+				}
 			}
 		}
-	}
 
-	private Node getRootNode()
-	{
-		if (rootNode == null)
-		{
-			rootNode = new Node();
-		}
-
-		return rootNode;
+		return node;
 	}
 }
