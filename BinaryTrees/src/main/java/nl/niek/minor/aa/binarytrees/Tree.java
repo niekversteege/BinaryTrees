@@ -48,6 +48,7 @@ public class Tree
 			{
 				BinaryTreesUtil.print("Child: " + n.toString() + " ");
 			}
+			BinaryTreesUtil.print("\n");
 		}
 	}
 

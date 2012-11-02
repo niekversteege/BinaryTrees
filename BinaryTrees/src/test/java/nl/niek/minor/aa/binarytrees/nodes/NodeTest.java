@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +42,16 @@ public class NodeTest
 		defaultNode = new Node();
 		defaultNode.addKey(5);
 		defaultNode.addKey(5);
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testTooManyChildren()
+	{
+		defaultNode = new Node();
+		defaultNode.addChild(new Node());
+		defaultNode.addChild(new Node());
+		defaultNode.addChild(new Node());
+		defaultNode.addChild(new Node());
 	}
 
 	@Test
@@ -88,6 +97,27 @@ public class NodeTest
 		List<Node> children = defaultNode.getParent().getChildren();
 		assertEquals(5, children.get(0).getLargestKey().intValue());
 		assertEquals(9, children.get(1).getLargestKey().intValue());
+	}
+	
+	@Test
+	public void testSplitWithParentNode()
+	{
+		defaultNode = new Node();
+		defaultNode.addKey(5);
+		defaultNode.addKey(7);
+		Node parentNode = new Node();
+		parentNode.addKey(8);
+		defaultNode.setParent(parentNode);
+		parentNode.addChild(defaultNode);
+		Node sibling = new Node();
+		sibling.setParent(parentNode);
+		sibling.addKey(9);
+		parentNode.addChild(sibling);
+		
+		defaultNode.addKey(6);
+		
+		assertEquals(6, parentNode.getSmallKey().intValue());
+		assertEquals(8, parentNode.getBigKey().intValue());
 	}
 	
 	@Test

@@ -83,13 +83,6 @@ public class Node
 		parent.addChild(sibling);
 		// set sibling node as right child in parent
 		sibling.setParent(parent);
-
-		// TODO: what to do when parent has too many children?
-		// TODO: make keys and children a list! Keep track of keys with
-		// a number or size().
-		// TODO: redistribute children after splitting, according to
-		// keys of other nodes.
-
 	}
 
 	public Node getChild(int key)
@@ -116,7 +109,7 @@ public class Node
 	private Node getChildForThreeNode(int key)
 	{
 		Node child = null;
-		
+
 		if (key < getSmallKey())
 		{
 			for (Node n : children)
@@ -202,12 +195,17 @@ public class Node
 
 	public void addChild(Node child)
 	{
-		if (children.size() >= MAX_CHILDREN)
+		if (childsFull())
 		{
 			throw new IllegalStateException("Cannot fit any more children.");
 		}
 
 		children.add(child);
+	}
+
+	private boolean childsFull()
+	{
+		return children.size() == MAX_CHILDREN;
 	}
 
 	public List<Node> getChildren()

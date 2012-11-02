@@ -75,4 +75,6 @@ public class TreeTest
 		Node result = tree.search(6);
 		assertEquals(7, result.getLargestKey().intValue());
 	}
+	
+	
 }
