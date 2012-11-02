@@ -6,7 +6,8 @@ import java.util.List;
 
 public class Node
 {
-	private static final int	MAX_KEYS	= 2;
+	private static final int	MAX_KEYS		= 2;
+	private static final int	MAX_CHILDREN	= 3;
 	private List<Integer>		keys;
 	private Node				parent;
 	private List<Node>			children;
@@ -97,37 +98,96 @@ public class Node
 
 		if (hasChildren())
 		{
-			/* If this is a 2Node, else 3Node */
 			if (keys.size() == 1)
 			{
-				if (key < getSmallKey())
-				{
-					// get child with keys smaller than smallKey
-				}
-				else
-				{
-					// get child with keys larger than key
-				}
+				/* This is a two-node */
+				child = getChildForTwoNode(key);
 			}
 			else
 			{
-				if (key < getSmallKey())
+				/* This is a three-node */
+				child = getChildForThreeNode(key);
+			}
+		}
+
+		return child;
+	}
+
+	private Node getChildForThreeNode(int key)
+	{
+		Node child = null;
+		
+		if (key < getSmallKey())
+		{
+			for (Node n : children)
+			{
+				if (n.getLargestKey() < getSmallKey())
 				{
-					// get child with keys smaller than smallKey
+					child = n;
 				}
-				else if (key > getSmallKey() && key < getBigKey())
+			}
+		}
+		else if (key > getSmallKey() && key < getBigKey())
+		{
+			for (Node n : children)
+			{
+				if (n.getSmallKey() > getSmallKey()
+						&& n.getLargestKey() < getBigKey())
 				{
-					// get child with keys bigger than smallkey and smaller than
-					// bigkey
+					child = n;
 				}
-				else
+			}
+		}
+		else
+		{
+			for (Node n : children)
+			{
+				if (n.getSmallKey() > getBigKey())
 				{
-					// get child with keys bigger than bigkey
+					child = n;
 				}
 			}
 		}
 
 		return child;
+	}
+
+	private Node getChildForTwoNode(int key)
+	{
+		Node child = null;
+		if (key < getSmallKey())
+		{
+			for (Node n : children)
+			{
+				if (n.getLargestKey() < getSmallKey())
+				{
+					child = n;
+				}
+			}
+		}
+		else
+		{
+			for (Node n : children)
+			{
+				if (n.getSmallKey() > getSmallKey())
+				{
+					child = n;
+				}
+			}
+		}
+		return child;
+	}
+
+	public Integer getLargestKey()
+	{
+		Integer retVal = keys.get(0);
+
+		if (isFull())
+		{
+			retVal = keys.get(1);
+		}
+
+		return retVal;
 	}
 
 	private void sortKeys(List<Integer> listOfKeys)
@@ -142,6 +202,11 @@ public class Node
 
 	public void addChild(Node child)
 	{
+		if (children.size() >= MAX_CHILDREN)
+		{
+			throw new IllegalStateException("Cannot fit any more children.");
+		}
+
 		children.add(child);
 	}
 
