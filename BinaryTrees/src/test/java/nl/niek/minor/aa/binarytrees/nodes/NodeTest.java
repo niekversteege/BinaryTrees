@@ -1,6 +1,8 @@
 package nl.niek.minor.aa.binarytrees.nodes;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class NodeTest
 		defaultNode.addKey(5);
 		defaultNode.addKey(7);
 
-		Assert.assertTrue(defaultNode.isFull());
+		assertTrue(defaultNode.isFull());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -50,7 +52,7 @@ public class NodeTest
 		defaultNode.addKey(5);
 		defaultNode.addKey(7);
 
-		Assert.assertEquals(7, defaultNode.getBigKey().intValue());
+		assertEquals(7, defaultNode.getBigKey().intValue());
 	}
 
 	@Test
@@ -60,7 +62,7 @@ public class NodeTest
 		defaultNode.addKey(5);
 		defaultNode.addKey(7);
 
-		Assert.assertEquals(5, defaultNode.getSmallKey().intValue());
+		assertEquals(5, defaultNode.getSmallKey().intValue());
 	}
 
 	@Test
@@ -71,7 +73,7 @@ public class NodeTest
 		defaultNode.addKey(7);
 		defaultNode.addKey(9);
 
-		Assert.assertNotNull(defaultNode.getParent());
+		assertNotNull(defaultNode.getParent());
 	}
 
 	@Test
@@ -82,10 +84,10 @@ public class NodeTest
 		defaultNode.addKey(7);
 		defaultNode.addKey(9);
 
-		Assert.assertEquals(7, defaultNode.getParent().getLargestKey().intValue());
+		assertEquals(7, defaultNode.getParent().getLargestKey().intValue());
 		List<Node> children = defaultNode.getParent().getChildren();
-		Assert.assertEquals(5, children.get(0).getLargestKey().intValue());
-		Assert.assertEquals(9, children.get(1).getLargestKey().intValue());
+		assertEquals(5, children.get(0).getLargestKey().intValue());
+		assertEquals(9, children.get(1).getLargestKey().intValue());
 	}
 	
 	@Test
@@ -111,15 +113,15 @@ public class NodeTest
 		defaultNode.addChild(child3);
 		
 		Node testNode = defaultNode.getChild(2);
-		Assert.assertNotNull(testNode);
-		Assert.assertEquals(1, testNode.getLargestKey().intValue());
+		assertNotNull(testNode);
+		assertEquals(1, testNode.getLargestKey().intValue());
 		
 		testNode = defaultNode.getChild(6);
-		Assert.assertNotNull(testNode);
-		Assert.assertEquals(7, testNode.getLargestKey().intValue());
+		assertNotNull(testNode);
+		assertEquals(7, testNode.getLargestKey().intValue());
 		
 		testNode = defaultNode.getChild(20);
-		Assert.assertNotNull(testNode);
-		Assert.assertEquals(12, testNode.getLargestKey().intValue());
+		assertNotNull(testNode);
+		assertEquals(12, testNode.getLargestKey().intValue());
 	}
 }

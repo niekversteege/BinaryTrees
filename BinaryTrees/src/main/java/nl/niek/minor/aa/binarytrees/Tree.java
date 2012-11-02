@@ -14,7 +14,12 @@ public class Tree
 
 	public Tree()
 	{
-		rootNode = new Node();
+		this(new Node());
+	}
+
+	public Tree(Node rootNode)
+	{
+		this.rootNode = rootNode;
 	}
 
 	public void addKey(int newKey)
@@ -59,27 +64,22 @@ public class Tree
 
 		Node node = rootNode;
 
-		/* If the root is full, search the children. */
-		if (node.isFull())
+		while (!atLeafLevel)
 		{
-			while (!atLeafLevel)
+			if (node.hasKey(key))
 			{
-				if (node.hasKey(key))
+				throw new IllegalStateException("Key already exists in tree.");
+			}
+			else
+			{
+				if (node.hasChildren())
 				{
-					throw new IllegalStateException(
-							"Key already exists in tree.");
+					node = node.getChild(key);
 				}
 				else
 				{
-					if (node.hasChildren())
-					{
-						node = node.getChild(key);
-					}
-					else
-					{
-						atLeafLevel = true;
-						break;
-					}
+					atLeafLevel = true;
+					break;
 				}
 			}
 		}
