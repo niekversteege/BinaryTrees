@@ -6,9 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import nl.niek.minor.aa.binarytrees.nodes.Node;
-
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class NodeTest
@@ -47,6 +46,7 @@ public class NodeTest
 	}
 	
 	@Test(expected = IllegalStateException.class)
+	@Ignore
 	public void testTooManyChildren()
 	{
 		defaultNode = new Node();
@@ -109,10 +109,8 @@ public class NodeTest
 		defaultNode.addKey(7);
 		Node parentNode = new Node();
 		parentNode.addKey(8);
-		defaultNode.setParent(parentNode);
 		parentNode.addChild(defaultNode);
 		Node sibling = new Node();
-		sibling.setParent(parentNode);
 		sibling.addKey(9);
 		parentNode.addChild(sibling);
 		
@@ -126,6 +124,34 @@ public class NodeTest
 	}
 	
 	@Test
+	public void testGetChildrenForSibling()
+	{
+		defaultNode = new Node();
+		defaultNode.addKey(3);
+		defaultNode.addKey(8);
+		
+		Node two = new Node();
+		two.addKey(2);
+		defaultNode.addChild(two);
+		
+		Node four = new Node();
+		four.addKey(4);
+		defaultNode.addChild(four);
+		
+		Node seven = new Node();
+		seven.addKey(7);
+		defaultNode.addChild(seven);
+		
+		Node nine = new Node();
+		nine.addKey(9);
+		defaultNode.addChild(nine);
+		
+		List<Node> childrenForSibling = defaultNode.getChildrenForSibling(5);
+		
+		assertEquals(2, childrenForSibling.size());
+	}
+	
+	@Test
 	public void testGetChild()
 	{
 		defaultNode = new Node();
@@ -133,17 +159,14 @@ public class NodeTest
 		defaultNode.addKey(10);
 		
 		Node child1 = new Node();
-		child1.setParent(defaultNode);
 		child1.addKey(1);
 		defaultNode.addChild(child1);
 		
 		Node child2 = new Node();
-		child2.setParent(defaultNode);
 		child2.addKey(7);
 		defaultNode.addChild(child2);
 		
 		Node child3 = new Node();
-		child3.setParent(defaultNode);
 		child3.addKey(12);
 		defaultNode.addChild(child3);
 		

@@ -8,8 +8,7 @@ import nl.niek.minor.aa.binarytrees.BinaryTreesUtil;
 
 public class Node
 {
-	private static final int	MAX_KEYS		= 2;
-	private static final int	MAX_CHILDREN	= 3;
+	private static final int	MAX_KEYS	= 2;
 	private List<Integer>		keys;
 	private Node				parent;
 	private List<Node>			children;
@@ -32,6 +31,8 @@ public class Node
 		}
 		if (isFull())
 		{
+			BinaryTreesUtil.println("Splitting " + this.toString()
+					+ " because " + newKey + " was added.");
 			split(newKey);
 		}
 		else
@@ -67,16 +68,11 @@ public class Node
 		{
 			// create a new node as parent.
 			parent = new Node();
-			// set parent as parent
-			this.setParent(parent);
 			// set this as left child in parent
 			parent.addChild(this);
 		}
-		// set middle value in parent
-		parent.addKey(middleKey);
 		// set small value in this
 		this.addKey(smallKey);
-
 
 		// create a sibling node
 		Node sibling = new Node();
@@ -84,11 +80,48 @@ public class Node
 		sibling.addKey(bigKey);
 		// set sibling node as child of new parent
 		parent.addChild(sibling);
-		// set sibling node as right child in parent
-		sibling.setParent(parent);
+		// give sibling children that are larger than the middle key
+		if (hasChildren())
+		{
+			List<Node> childrenForSibling = getChildrenForSibling(middleKey);
+			if (childrenForSibling.size() > 0)
+			{
+				for (Node n : childrenForSibling)
+				{
+					sibling.addChild(n);
+				}
+			}
+		}
+
+		// set middle value in parent
+		parent.addKey(middleKey);
 	}
 
-	public Node getChild(int key)
+	/**
+	 * Get all children larger than the given key. Also remove these children
+	 * from this node as they are placed as the siblings children.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	protected List<Node> getChildrenForSibling(int key)
+	{
+		List<Node> childrenToMove = new ArrayList<Node>();
+
+		for (Node n : children)
+		{
+			if (n.getSmallKey() > key)
+			{
+				childrenToMove.add(n);
+			}
+		}
+		
+		children.removeAll(childrenToMove);
+
+		return childrenToMove;
+	}
+
+	public final Node getChild(int key)
 	{
 		Node child = null;
 
@@ -198,17 +231,8 @@ public class Node
 
 	public void addChild(Node child)
 	{
-		if (childsFull())
-		{
-			throw new IllegalStateException("Cannot fit any more children.");
-		}
-
+		child.setParent(this);
 		children.add(child);
-	}
-
-	private boolean childsFull()
-	{
-		return children.size() == MAX_CHILDREN;
 	}
 
 	public List<Node> getChildren()
@@ -234,14 +258,18 @@ public class Node
 	@Override
 	public String toString()
 	{
+		String retVal = "";
+
 		if (isFull())
 		{
-			return "[" + getSmallKey() + "][" + getBigKey() + "]";
+			retVal = "(" + getSmallKey() + ", " + getBigKey() + ")";
 		}
 		else
 		{
-			return "[" + getSmallKey() + "]";
+			retVal = "(" + getSmallKey() + ")";
 		}
+
+		return retVal;
 	}
 
 	public Integer getSmallKey()

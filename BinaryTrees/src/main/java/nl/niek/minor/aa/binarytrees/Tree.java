@@ -40,16 +40,6 @@ public class Tree
 				rootNode = rootNode.getParent();
 			}
 		}
-
-		BinaryTreesUtil.println("Root node: " + rootNode.toString());
-		if (rootNode.hasChildren())
-		{
-			for (Node n : rootNode.getChildren())
-			{
-				BinaryTreesUtil.print("Child: " + n.toString() + " ");
-			}
-			BinaryTreesUtil.print("\n");
-		}
 	}
 
 	/**
@@ -86,5 +76,11 @@ public class Tree
 		}
 
 		return node;
+	}
+
+	public Node getRootNode()
+	{
+		refreshRootNode();
+		return rootNode;
 	}
 }
