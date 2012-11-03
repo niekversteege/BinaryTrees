@@ -44,17 +44,6 @@ public class NodeTest
 		defaultNode.addKey(5);
 		defaultNode.addKey(5);
 	}
-	
-	@Test(expected = IllegalStateException.class)
-	@Ignore
-	public void testTooManyChildren()
-	{
-		defaultNode = new Node();
-		defaultNode.addChild(new Node());
-		defaultNode.addChild(new Node());
-		defaultNode.addChild(new Node());
-		defaultNode.addChild(new Node());
-	}
 
 	@Test
 	public void testGetBigKey()
@@ -149,6 +138,8 @@ public class NodeTest
 		List<Node> childrenForSibling = defaultNode.getChildrenForSibling(5);
 		
 		assertEquals(2, childrenForSibling.size());
+		assertEquals(7, childrenForSibling.get(0).getLargestKey().intValue());
+		assertEquals(9, childrenForSibling.get(1).getLargestKey().intValue());
 	}
 	
 	@Test

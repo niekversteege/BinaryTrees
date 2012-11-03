@@ -93,7 +93,7 @@ public class Node
 			}
 		}
 
-		// set middle value in parent
+		// set middle value in parent last: because the parent might also split and screw up stuff.
 		parent.addKey(middleKey);
 	}
 
