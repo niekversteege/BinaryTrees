@@ -10,7 +10,7 @@ public class BinaryTreesMain
 	{
 		Tree tree = new Tree();
 
-		// example from book
+		/* example from book */
 		tree.addKey(9);
 		tree.addKey(5);
 		tree.addKey(8);

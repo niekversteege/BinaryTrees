@@ -25,10 +25,12 @@ public class BinaryTreesUtil
 			if (n != null)
 			{
 				print(n.toString());
+				
 				if (n.getParent() != null)
 				{
-					print(" p: [" + n.getParent().toString() + "] ");
+					print("(parent: " + n.getParent().toString() + ") | ");
 				}
+				
 				if (n.hasChildren())
 				{
 					children.addAll(n.getChildren());

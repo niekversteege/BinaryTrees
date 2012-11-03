@@ -22,6 +22,12 @@ public class Tree
 		this.rootNode = rootNode;
 	}
 
+	/**
+	 * Add a key to the tree. Refreshes the root node if rootNode created a
+	 * parent.
+	 * 
+	 * @param newKey
+	 */
 	public void addKey(int newKey)
 	{
 		Node nodeForNewKey = search(newKey);
@@ -43,8 +49,9 @@ public class Tree
 	}
 
 	/**
-	 * Look for the node which contains this key. If it is not found then it
-	 * returns a node where it should be added.
+	 * Look for the node which contains this key. Key should not be in the tree
+	 * so if it is found it throws an exception. Otherwise it will return the
+	 * Node that should add the key.
 	 * 
 	 * @param key
 	 * @return
@@ -78,6 +85,12 @@ public class Tree
 		return node;
 	}
 
+	/**
+	 * Get the node without a parent node. This node might be changed during the
+	 * course of adding a series of keys due to splitting.
+	 * 
+	 * @return
+	 */
 	public Node getRootNode()
 	{
 		refreshRootNode();
