@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import nl.niek.minor.aa.binarytrees.nodes.Node;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -118,6 +120,9 @@ public class NodeTest
 		
 		assertEquals(6, parentNode.getSmallKey().intValue());
 		assertEquals(8, parentNode.getBigKey().intValue());
+		List<Node> children = parentNode.getChildren();
+		assertEquals(3, children.size());
+		assertEquals(9, sibling.getLargestKey().intValue());
 	}
 	
 	@Test

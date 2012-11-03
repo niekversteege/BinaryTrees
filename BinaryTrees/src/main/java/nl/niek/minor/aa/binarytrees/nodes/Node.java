@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import nl.niek.minor.aa.binarytrees.BinaryTreesUtil;
+
 public class Node
 {
 	private static final int	MAX_KEYS		= 2;
@@ -65,15 +67,16 @@ public class Node
 		{
 			// create a new node as parent.
 			parent = new Node();
+			// set parent as parent
+			this.setParent(parent);
+			// set this as left child in parent
+			parent.addChild(this);
 		}
 		// set middle value in parent
 		parent.addKey(middleKey);
 		// set small value in this
 		this.addKey(smallKey);
-		// set this as left child in parent
-		parent.addChild(this);
-		// set parent as parent
-		this.setParent(parent);
+
 
 		// create a sibling node
 		Node sibling = new Node();

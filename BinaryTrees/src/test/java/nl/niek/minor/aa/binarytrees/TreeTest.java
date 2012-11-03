@@ -1,8 +1,9 @@
-package nl.niek.minor.aa.binarytrees.nodes;
+package nl.niek.minor.aa.binarytrees;
 
 import static org.junit.Assert.*;
 
 import nl.niek.minor.aa.binarytrees.Tree;
+import nl.niek.minor.aa.binarytrees.nodes.Node;
 
 import org.junit.Before;
 import org.junit.Test;

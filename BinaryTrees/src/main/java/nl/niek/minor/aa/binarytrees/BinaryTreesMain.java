@@ -15,7 +15,7 @@ public class BinaryTreesMain
 		tree.addKey(5);
 		tree.addKey(8);
 		tree.addKey(3);
-		// tree.addKey(2);
+		tree.addKey(2);
 		// tree.addKey(4);
 		// tree.addKey(7);
 	}
