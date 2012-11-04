@@ -26,15 +26,25 @@ public class Tree
 	 * Add a key to the tree. Refreshes the root node if rootNode created a
 	 * parent.
 	 * 
+	 * @param success
+	 *            : key is not in the node where it is supposed to be.
 	 * @param newKey
 	 */
-	public void addKey(int newKey)
+	public boolean addKey(int newKey)
 	{
 		Node nodeForNewKey = search(newKey);
 
-		nodeForNewKey.addKey(newKey);
+		if (nodeForNewKey.hasKey(newKey))
+		{
+			return false;
+		}
+		else
+		{
+			nodeForNewKey.addKey(newKey);
 
-		refreshRootNode();
+			refreshRootNode();
+			return true;
+		}
 	}
 
 	private void refreshRootNode()
@@ -64,22 +74,16 @@ public class Tree
 
 		while (!atLeafLevel)
 		{
-			if (node.hasKey(key))
+			if (node.hasChildren())
 			{
-				throw new IllegalStateException("Key already exists in tree.");
+				node = node.getChild(key);
 			}
 			else
 			{
-				if (node.hasChildren())
-				{
-					node = node.getChild(key);
-				}
-				else
-				{
-					atLeafLevel = true;
-					break;
-				}
+				atLeafLevel = true;
+				break;
 			}
+
 		}
 
 		return node;

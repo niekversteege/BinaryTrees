@@ -42,14 +42,15 @@ public class Node
 	 */
 	public void addKey(Integer newKey)
 	{
-		if (newKey == 0)
-		{
-			throw new IllegalArgumentException("Key can't be 0.");
-		}
 		if (hasKey(newKey))
 		{
-			throw new IllegalArgumentException("Key already exists!");
+			throw new IllegalArgumentException("Key already exists.");
 		}
+		if (newKey == 0)
+		{
+			throw new IllegalArgumentException("Key cannot be zero.");
+		}
+
 		if (isFull())
 		{
 			BinaryTreesCLI.println("Splitting " + this.toString() + " because "

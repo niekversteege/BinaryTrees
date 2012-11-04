@@ -10,6 +10,7 @@ import nl.niek.minor.aa.binarytrees.nodes.Node;
 
 public class BinaryTreesCLI
 {
+	private static final int	MIN_INPUT	= 1;
 	private static final int	MAX_INPUT	= 1000;
 	private static final String	STOP		= "stop";
 
@@ -59,18 +60,41 @@ public class BinaryTreesCLI
 				println("Stopping.");
 				break;
 			}
+			
+			Integer inputNumber = null;
 
-			Integer inputNumber = Integer.parseInt(input);
-
-			if (inputNumber > 0 && inputNumber < MAX_INPUT)
+			if (!input.isEmpty())
 			{
-				tree.addKey(inputNumber);
-				tree.getRootNode().print();
+				inputNumber = Integer.parseInt(input);
+
+				if (inputNumber >= MIN_INPUT)
+				{
+					if (inputNumber <= MAX_INPUT)
+					{
+						if (tree.addKey(inputNumber))
+						{
+							tree.getRootNode().print();
+						}
+						else
+						{
+							println("Number is already present in tree.");
+						}
+					}
+					else
+					{
+						println("Number must be under " + MAX_INPUT + ".");
+					}
+				}
+				else
+				{
+					println("Number must be larger than 0.");
+				}
 			}
 			else
 			{
-				println("Please use a reasonable number.");
+				println("Invalid input.");
 			}
+
 		}
 	}
 
