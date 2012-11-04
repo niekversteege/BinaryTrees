@@ -363,4 +363,31 @@ public class Node
 	{
 		return keys.get(1);
 	}
+
+	/**
+	 * Useful tree printing method. Based on an example given on <a
+	 * href=http://stackoverflow
+	 * .com/questions/4965335/how-to-print-binary-tree-diagram>StackOverflow</a>
+	 * 
+	 * @param prefix
+	 * @param isTail
+	 */
+	public void print(String prefix, boolean isTail)
+	{
+		BinaryTreesUtil.println(prefix + (isTail ? "--- " : "|-- ")
+				+ toString());
+		if (children != null)
+		{
+			for (int i = 0; i < children.size() - 1; i++)
+			{
+				children.get(i).print(prefix + (isTail ? "    " : "|   "),
+						false);
+			}
+			if (children.size() >= 1)
+			{
+				children.get(children.size() - 1).print(
+						prefix + (isTail ? "    " : "|   "), true);
+			}
+		}
+	}
 }
