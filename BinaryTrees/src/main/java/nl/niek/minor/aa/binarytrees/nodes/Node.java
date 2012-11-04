@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import nl.niek.minor.aa.binarytrees.BinaryTreesUtil;
+import nl.niek.minor.aa.binarytrees.cli.BinaryTreesCLI;
 
 public class Node
 {
@@ -52,8 +52,8 @@ public class Node
 		}
 		if (isFull())
 		{
-			BinaryTreesUtil.println("Splitting " + this.toString()
-					+ " because " + newKey + " was added.");
+			BinaryTreesCLI.println("Splitting " + this.toString() + " because "
+					+ newKey + " was added.");
 			split(newKey);
 		}
 		else
@@ -372,10 +372,15 @@ public class Node
 	 * @param prefix
 	 * @param isTail
 	 */
-	public void print(String prefix, boolean isTail)
+	public void print()
 	{
-		BinaryTreesUtil.println(prefix + (isTail ? "--- " : "|-- ")
-				+ toString());
+		print("", true);
+	}
+
+	private void print(String prefix, boolean isTail)
+	{
+		BinaryTreesCLI
+				.println(prefix + (isTail ? "--- " : "|-- ") + toString());
 		if (children != null)
 		{
 			for (int i = 0; i < children.size() - 1; i++)
